@@ -10,6 +10,7 @@ const Router = () => {
                 <Route path='*' element={<>404 Not found</>} />
                 <Route path='/' element={<App />}>
                     <Route path=":id" element={<Chat />} />
+                    <Route path="new" element={<Chat />} />
                 </Route>
             </Routes>
         </BrowserRouter>

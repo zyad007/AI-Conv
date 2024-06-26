@@ -84,7 +84,7 @@ const Chats = () => {
     return (
         <>
             <CreateChatModal isOpen={isOpen} setIsOpen={setIsOpen} addChat={addChat} />
-            <div className="h-full w-full flex flex-col">
+            <div className="h-[90%] w-full flex flex-col">
                 <div className="h-[10%] w-full bg-slate-800 pt-3 space-x-2 flex">
 
                     {
@@ -116,7 +116,7 @@ const Chats = () => {
 
                 </div>
 
-                <div className="h-full w-full bg-slate-100 rounded-b-lg rounded-tr-lg overflow-y-scroll">
+                <div className="h-[90%] w-full bg-slate-100 rounded-b-lg rounded-tr-lg overflow-y-scroll">
                     <Outlet />
                 </div>
             </div>

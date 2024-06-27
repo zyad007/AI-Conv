@@ -45,10 +45,7 @@ const BotMenu = ({ chatId }:
             })
         })
             .then(res => {
-                return res.json()
-            })
-            .then(result => {
-                loadBots()
+                res.ok && loadBots();
             })
             .catch(e => {
                 err = e

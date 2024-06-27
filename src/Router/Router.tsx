@@ -10,7 +10,7 @@ const Router = () => {
                 <Route path='*' element={<>404 Not found</>} />
                 <Route path='/' element={<App />}>
                     <Route path=":id" element={<Chat />} />
-                    <Route path="new" element={<Chat />} />
+                    <Route path="new" element={<div className='flex justify-center pt-10 font-bold select-none'>Create a new chat</div>} />
                 </Route>
             </Routes>
         </BrowserRouter>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import CreateChatModal from '../Modals/CreateChatModal';
+import config from '../config';
 
 export type Chat = {
     id: string,
@@ -10,6 +11,7 @@ export type Chat = {
 const Chats = () => {
 
     const [chats, setChats] = useState<Chat[]>([]);
+    const [message, setMessage] = useState(String)
     const params = useParams();
     const nav = useNavigate();
     const location = useLocation()
@@ -17,11 +19,6 @@ const Chats = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     const loadChats = () => {
-        setChats([{
-            id: 'sad',
-            name: 'asd'
-        }]);
-
         fetch('http://localhost:3000/chat')
             .then(res => res.json())
             .then(result => {
@@ -67,12 +64,7 @@ const Chats = () => {
                 console.log(e);
             })
     }
-    async function sendPrompt() {
-        const botsResponse = await fetch(config.BASE_URL + '/chat/send/' + params.id)
-        const bots = await botsResponse.json()
-        console.log(bots)
-
-    }
+    
     const handleDelete = (id: string) => {
 
         fetch(config.BASE_URL + '/chat/' + id, {
@@ -89,12 +81,13 @@ const Chats = () => {
     return (
         <>
             <CreateChatModal isOpen={isOpen} setIsOpen={setIsOpen} addChat={addChat} />
-            <div className="h-[90%] w-full flex flex-col">
+            <div className="h-[100%] w-full flex flex-col">
                 <div className="h-[10%] w-full bg-slate-800 pt-3 space-x-2 flex">
 
                     {
                         chats.map((x, i) => <>
                             <NavLink
+                                // reloadDocument={true}
                                 key={i}
                                 to={'/' + x.id}
                                 className={({ isActive }: { isActive: boolean }) =>
@@ -121,25 +114,11 @@ const Chats = () => {
 
                 </div>
 
-                <div className="h-[90%] w-full bg-slate-100 rounded-b-lg rounded-tr-lg overflow-y-scroll">
+                <div className="h-[90%] w-full bg-slate-100 rounded-b-lg rounded-tr-lg">
                     <Outlet />
                 </div>
             </div>
-            <div className="h-[10%] w-full bg-slate-800 py-3">
-
-                <form className="w-full h-full flex space-x-2" onSubmit={sendPrompt}>
-
-                    <input
-                        className="w-full rounded-lg px-2 focus:outline-none"
-                        type="text"
-                        placeholder="Message here..."
-
-                    />
-
-                    <button className="w-[10%] bg-white rounded-lg">Send</button>
-                </form>
-
-            </div>
+           
         </>
     );
 }

@@ -5,10 +5,7 @@ import Chats from "./Chats";
 const Main = () => {
     return (
         <div className="w-full h-full bg-slate-800 px-2 flex flex-col">
-
             <Chats />
-
-            
         </div>
     );
 }

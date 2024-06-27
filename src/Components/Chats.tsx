@@ -68,18 +68,21 @@ const Chats = () => {
             })
     }
     async function sendPrompt() {
-        
+        const botsResponse = await fetch(config.BASE_URL + '/chat/send/' + params.id)
+        const bots = await botsResponse.json()
+        console.log(bots)
+
     }
     const handleDelete = (id: string) => {
 
-        fetch('http://localhost:3000/chat/' + id, {
+        fetch(config.BASE_URL + '/chat/' + id, {
             method: 'DELETE'
         })
-            .then(res => res.json())
-            .then(result => {
-                setChats(result)
-                if (id === params.id) nav('/' + result[result.length - 1].id);
-            })
+        .then(res => res.json())
+        .then(result => {
+            setChats(result)
+            if (id === params.id) nav('/' + result[result.length - 1].id);
+        })
 
     }
 

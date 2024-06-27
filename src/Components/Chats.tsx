@@ -67,7 +67,9 @@ const Chats = () => {
                 console.log(e);
             })
     }
-
+    async function sendPrompt() {
+        
+    }
     const handleDelete = (id: string) => {
 
         fetch('http://localhost:3000/chat/' + id, {
@@ -119,6 +121,21 @@ const Chats = () => {
                 <div className="h-[90%] w-full bg-slate-100 rounded-b-lg rounded-tr-lg overflow-y-scroll">
                     <Outlet />
                 </div>
+            </div>
+            <div className="h-[10%] w-full bg-slate-800 py-3">
+
+                <form className="w-full h-full flex space-x-2" onSubmit={sendPrompt}>
+
+                    <input
+                        className="w-full rounded-lg px-2 focus:outline-none"
+                        type="text"
+                        placeholder="Message here..."
+
+                    />
+
+                    <button className="w-[10%] bg-white rounded-lg">Send</button>
+                </form>
+
             </div>
         </>
     );

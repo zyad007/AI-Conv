@@ -8,21 +8,7 @@ const Main = () => {
 
             <Chats />
 
-            <div className="h-[10%] w-full bg-slate-800 py-3">
-
-                <form className="w-full h-full flex space-x-2">
-
-                    <input
-                        className="w-full rounded-lg px-2 focus:outline-none"
-                        type="text"
-                        placeholder="Message here..."
-
-                    />
-
-                    <button className="w-[10%] bg-white rounded-lg">Send</button>
-                </form>
-
-            </div>
+            
         </div>
     );
 }

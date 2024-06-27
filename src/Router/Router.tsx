@@ -6,7 +6,7 @@ import Chat from '../Components/Chat';
 const Router = () => {
     return (
         <BrowserRouter>
-            <Routes >
+            <Routes>
                 <Route path='*' element={<>404 Not found</>} />
                 <Route path='/' element={<App />}>
                     <Route path=":id" element={<Chat />} />

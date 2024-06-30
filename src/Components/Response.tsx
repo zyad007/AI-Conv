@@ -10,7 +10,7 @@ export default function Response({text, sender}: {text: string, sender: string})
                 </span>
 
                 <div className="grow mt-2 space-y-3">
-                    <p className="text-gray-800 ">
+                    <p className="response">
                         <Markdown>
                             {text}
                         </Markdown>

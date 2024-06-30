@@ -59,7 +59,7 @@ const Chat = () => {
                     throw new Error("")
                 }
                 const botsResults = await botsResponse.text()
-                history = history +  bot.name + ": " + botsResults + ",\n"
+                history = history + bot.name + ": " + botsResults + ",\n"
                 setMessages(prev => prev.concat({
                     message: botsResults,
                     sender: bot.name
@@ -73,38 +73,33 @@ const Chat = () => {
         }
     }
     return (
-        <div className='w-full h-full'>
-            <div className='w-full h-[90%] flex flex-col justify-end items-start overflow-y-scroll p-6'>
+        <div className="h-full w-full flex flex-col">
+            <div className="w-full h-[90%] justify-end items-start overflow-y-scroll border-red-500 p-6">
                 {
-                    messages.map((m) => {
-                        if (m.sender === 'user') {
-                            return <Message text={m.message} />
-                        } else {
-                            return <Response text={m.message} sender={m.sender} />
-                        }
-                    })
+                    messages.map((m, index) => (
+                        m.sender === 'user'
+                            ? <Message key={index} text={m.message} />
+                            : <Response key={index} text={m.message} sender={m.sender} />
+                    ))
                 }
             </div>
             <div className="h-[10%] w-full bg-slate-800 py-3">
                 <form className="w-full h-full flex space-x-2" onSubmit={(e) => {
-                    e.preventDefault()
-                    sendPrompt()
+                    e.preventDefault();
+                    sendPrompt();
                 }}>
                     <input
                         value={message}
-                        onChange={(e) => {
-                            setMessage(e.target.value)
-                        }}
+                        onChange={(e) => setMessage(e.target.value)}
                         className="w-full rounded-lg px-2 focus:outline-none"
                         type="text"
                         placeholder="Message here..."
-
                     />
                     <button className="w-[10%] bg-white rounded-lg">Send</button>
                 </form>
             </div>
         </div>
     );
-}
+};
 
 export default Chat;

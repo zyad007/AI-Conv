@@ -10,25 +10,38 @@ export default function AddBotModal({ isOpen, setIsOpen, addBot }
     }
 ) {
 
-    const [id, setId] = useState('')
     const [error, setError] = useState('')
+
+    const [botsList, setBotsList] = useState<{ id: string, name: string }[]>([])
+
+    useEffect(() => {
+        loadBots()
+    }, [])
+
+    const loadBots = () => {
+        fetch('http://localhost:3000/bot/chat/' + params.id)
+            .then(res => res.json())
+            .then(result => {
+                setBotsList(result)
+            })
+    }
 
     const nav = useNavigate()
     const params = useParams()
 
-    const handleAddChat = () => {
+    const handleAddChat = (id: string) => {
         try {
             addBot(id, params.id);
             closeModal()
         }
-        catch(e: any) {
+        catch (e: any) {
             setError(e.message);
         }
     }
 
     const closeModal = () => {
-        setId('')
         setIsOpen(false);
+        setBotsList([]);
     }
 
     return (
@@ -36,27 +49,39 @@ export default function AddBotModal({ isOpen, setIsOpen, addBot }
             <ReactModal
                 appElement={document.getElementById('root')}
                 isOpen={isOpen}
-                className={'-translate-x-1/3 shadow-xl shadow-slate-300 -translate-y-1/3 left-1/2 top-1/2 h-40 w-72 absolute flex flex-col justify-around items-center border p-5 rounded-md bg-secondary-2 text-black'}
+                className={'-translate-x-1/3 shadow-xl shadow-slate-300 bg-slate-200 -translate-y-1/3 left-[40%] top-1/3 h-[80%] w-[60%] absolute flex flex-col justify-around items-center border p-5 rounded-md bg-secondary-2 text-black'}
                 shouldFocusAfterRender={false}
                 onRequestClose={closeModal}
                 closeTimeoutMS={200}
+                onAfterOpen={loadBots}
             >
-                <div className="w-full text-red-600 flex justify-center items-center">
-                    {error}
+                <div className="w-full h-full space-y-2 overflow-y-scroll pr-1">
+
+                    {
+                        botsList.map(x =>
+                            <div className="relative h-24 w-full bg-white flex justify-center items-start pl-10 flex-col hover:bg-opacity-35 hover:cursor-pointer"
+                                onClick={() => {
+                                    handleAddChat(x.id)
+                                }}
+                            >
+
+                                <div>
+                                    <div className="font-bold text-xl truncate w-full pr-20">
+                                        {x.name}
+                                    </div>
+
+                                    <div className="font-semibold">
+                                        Id: {x.id}
+                                    </div>
+                                </div>
+
+                            </div>
+                        )
+                    }
+
+
                 </div>
-                <div className='w-full'>
-                    <div><label htmlFor="Chat-Name" id='Chat-Name-Lable' className='text-sm ml-1'>Bot Id</label></div>
-                    <input id='Chat-Name' className='text-sm w-full my-1 h-8 py-1 px-2 border border-primary-1 rounded-md bg-secondary-3 ' type='text' value={id}
-                        onChange={(e) => {
-                            setId(e.target.value)
-                        }}
-                    />
-                </div>
-                <button
-                    onClick={() => { handleAddChat() }}
-                    className="w-full  h-9 rounded-md border text-sm bg-slate-800 text-white hover:bg-slate-600">
-                    Create
-                </button>
+
             </ReactModal>
         </div>
     )

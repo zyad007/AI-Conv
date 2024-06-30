@@ -9,8 +9,9 @@ export default function CreateBotModal({ isOpen, setIsOpen }
     }
 ) {
 
-    const [name, setName] = useState('')
-    const [instruction, setInstruction] = useState('')
+    const [id, setId] = useState('');
+    const [name, setName] = useState('');
+    const [instruction, setInstruction] = useState('');
 
     const [botsList, setBotsList] = useState<{ id: string, name: string }[]>([])
 
@@ -29,6 +30,49 @@ export default function CreateBotModal({ isOpen, setIsOpen }
             })
     }
 
+    const edit = () => {
+        if (!name) {
+            alert("Name can't be empty");
+            return
+        }
+
+        if (!instruction) {
+            alert("Instructions can't be empty");
+            return
+        }
+
+
+        fetch('http://localhost:3000/bot/' + id, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name,
+                instruction
+            })
+        })
+            .then(x => {
+                if (x.ok) {
+                    loadBots();
+                    setId('');
+                    setName('');
+                    setInstruction('');
+                }
+            })
+    }
+
+    const handleEdit = (id: string) => {
+        setId(id);
+
+        fetch('http://localhost:3000/bot/' + id)
+            .then(res => res.json())
+            .then(result => {
+                setName(result.name);
+                setInstruction(result.instructions)
+            })
+    }
+
     const handleDelete = (id: string) => {
         fetch('http://localhost:3000/bot/' + id, {
             method: 'DELETE'
@@ -41,6 +85,17 @@ export default function CreateBotModal({ isOpen, setIsOpen }
     }
 
     const handleCreateChat = () => {
+
+        if (!name) {
+            alert("Name can't be empty");
+            return
+        }
+
+        if (!instruction) {
+            alert("Instructions can't be empty");
+            return
+        }
+
         fetch('http://localhost:3000/bot', {
             method: 'POST',
             headers: {
@@ -53,7 +108,8 @@ export default function CreateBotModal({ isOpen, setIsOpen }
         })
             .then(res => {
                 if (res.ok) {
-                    closeModal();
+                    // closeModal();
+                    loadBots();
                 }
             })
             .catch(e => {
@@ -96,6 +152,9 @@ export default function CreateBotModal({ isOpen, setIsOpen }
                                     </div>
 
                                     <div className="absolute right-0 p-5">
+                                        <div className="hover:underline select-none hover:cursor-pointer" onClick={() => handleEdit(x.id)}>
+                                            Edit
+                                        </div>
                                         <div className="text-red-700 hover:underline select-none hover:cursor-pointer" onClick={() => handleDelete(x.id)}>
                                             Delete
                                         </div>
@@ -128,11 +187,19 @@ export default function CreateBotModal({ isOpen, setIsOpen }
                             />
                         </div>
 
-                        <div className="w-full">
+                        <div className="w-full flex">
                             <button
                                 onClick={() => { handleCreateChat() }}
                                 className="w-full h-9 rounded-md border text-sm bg-slate-800 text-white hover:bg-slate-600">
                                 Create
+                            </button>
+
+                            <button
+                                className="w-full h-9 rounded-md border text-sm bg-slate-800 text-white hover:bg-slate-600 disabled:bg-slate-400 hover:disabled:bg-slate-400"
+                                disabled={!id}
+                                onClick={() => { edit() }}
+                            >
+                                Edit
                             </button>
                         </div>
                     </div>

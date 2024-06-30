@@ -1,4 +1,5 @@
 import React from 'react'
+import Markdown from 'react-markdown'
 
 export default function Response({text, sender}: {text: string, sender: string}) {
     return (
@@ -10,7 +11,9 @@ export default function Response({text, sender}: {text: string, sender: string})
 
                 <div className="grow mt-2 space-y-3">
                     <p className="text-gray-800 ">
-                        {text}
+                        <Markdown>
+                            {text}
+                        </Markdown>
                     </p>
                 </div>
             </div>

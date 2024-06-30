@@ -100,7 +100,7 @@ c15.632,0,28.348-12.717,28.348-28.338C309.059,138.903,296.342,126.181,280.71,126
                                             <div className='w-10 h-10 bg-slate-400 rounded-full'>
                                             </div>
 
-                                            <div className='text-lg font-semibold'>
+                                            <div className='text-lg font-semibold truncate w-36'>
                                                 {x.name}
                                             </div>
 
